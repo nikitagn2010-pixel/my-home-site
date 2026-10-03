@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Свой угол — дом и ремонт</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E8EAE6; --surface:#F6F7F4; --ink:#1B2326; --muted:#55615f;
+  --wall:#1F4E4A; --wall-ink:#F6F7F4; --tape:#F2C230; --brick:#B5533C; --line:#c5cac4;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#141A1B;--surface:#1D2627;--ink:#ECEFEA;--muted:#9aa8a5;--wall:#2C6B64;--line:#33403f}
+}
+:root[data-theme="dark"]{--bg:#141A1B;--surface:#1D2627;--ink:#ECEFEA;--muted:#9aa8a5;--wall:#2C6B64;--line:#33403f}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 Manrope,system-ui,sans-serif}
+h1,h2,h3{font-family:Unbounded,Manrope,sans-serif;line-height:1.15;margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--tape);outline-offset:3px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.logo{font:700 18px Unbounded,sans-serif;text-decoration:none}
+nav{display:flex;gap:20px;font-weight:500;font-size:15px}
+nav a{text-decoration:none;color:var(--muted)}
+nav a:hover{color:var(--ink)}
+@media(max-width:640px){nav{display:none}}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.15fr 1fr;gap:40px;align-items:center;padding:36px 0 64px;position:relative}
+.hero::before{content:"";position:absolute;left:0;right:0;top:0;height:14px;
+  background:repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 10px),
+  repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 50px);
+  background-size:100% 6px,100% 14px;background-repeat:no-repeat;background-position:0 0,0 0;opacity:.55}
+.hero h1{font-size:clamp(32px,5.2vw,56px);font-weight:700;letter-spacing:-.01em;margin-top:28px}
+.hero p.lead{max-width:46ch;color:var(--muted);margin:20px 0 28px;font-size:18px}
+.btn{display:inline-block;background:var(--tape);color:#1B2326;font-weight:700;padding:14px 22px;border-radius:4px;text-decoration:none;border:0;cursor:pointer;font:700 16px Manrope,sans-serif}
+.btn:hover{filter:brightness(.95)}
+@media(max-width:820px){.hero{grid-template-columns:1fr}}
+
+/* calculator */
+.calc{background:var(--wall);color:var(--wall-ink);padding:26px;border-radius:6px;margin-top:28px}
+.calc h2{font-size:19px;margin-bottom:18px}
+.calc label{display:block;font-weight:500;font-size:15px;margin-bottom:6px}
+.calc output{font:700 22px Unbounded,sans-serif}
+.calc input[type=range]{width:100%;accent-color:var(--tape);margin:8px 0 18px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:22px}
+.seg button{background:transparent;color:inherit;border:1px solid rgba(246,247,244,.45);padding:10px 4px;border-radius:4px;font:500 14px Manrope,sans-serif;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--tape);color:#1B2326;border-color:var(--tape);font-weight:700}
+.result{border-top:1px dashed rgba(246,247,244,.5);padding-top:16px}
+.result .sum{font:700 clamp(22px,4vw,28px) Unbounded,sans-serif}
+.result small{display:block;opacity:.8;margin-top:6px;font-size:13px;line-height:1.4}
+
+/* sections */
+section{padding:56px 0;border-top:1px solid var(--line)}
+section>.wrap>h2{font-size:clamp(24px,3.4vw,34px);margin-bottom:10px}
+.sub{color:var(--muted);max-width:56ch;margin:0 0 32px}
+
+.rooms a{display:grid;grid-template-columns:150px 1fr auto;gap:20px;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line);text-decoration:none}
+.rooms a:first-child{border-top:1px solid var(--line)}
+.rooms b{font:700 19px Unbounded,sans-serif}
+.rooms span{color:var(--muted)}
+.rooms em{font-style:normal;font-weight:700;color:var(--brick)}
+.rooms a:hover b{text-decoration:underline;text-decoration-thickness:3px;text-decoration-color:var(--tape);text-underline-offset:5px}
+@media(max-width:640px){.rooms a{grid-template-columns:1fr;gap:4px}}
+
+.cats{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.cat{background:var(--surface);padding:22px 22px 14px;border-left:6px solid var(--tape)}
+.cat h3{font-size:18px;margin-bottom:12px}
+.cat ul{margin:0;padding:0;list-style:none}
+.cat li{padding:9px 0;border-top:1px solid var(--line);font-size:16px}
+@media(max-width:700px){.cats{grid-template-columns:1fr}}
+.kgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.k{background:var(--surface);padding:22px;border-top:6px solid var(--wall)}
+.k:nth-child(2){border-color:var(--tape)}.k:nth-child(3){border-color:var(--brick)}
+.k h3{font-size:18px;margin-bottom:14px}
+.k label{display:block;font-weight:500;font-size:15px;margin-bottom:12px}
+.k input{display:block;width:100%;margin-top:4px;padding:10px;font:500 16px Manrope,sans-serif;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:4px}
+.k .two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.kr{font:700 20px Unbounded,sans-serif;margin:16px 0 6px}
+.k small{color:var(--muted);font-size:13px}
+@media(max-width:820px){.kgrid{grid-template-columns:1fr}}
+.lnk{display:block;text-decoration:none;font-weight:700}
+.lnk:hover{text-decoration:underline;text-decoration-thickness:3px;text-decoration-color:var(--tape);text-underline-offset:5px}
+.back{font-weight:700;display:inline-block;margin-bottom:20px}
+.ph{font-size:clamp(26px,4vw,40px);margin-bottom:12px}
+.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.pc{background:var(--surface);padding:22px;border-top:6px solid var(--wall)}
+.pc:nth-child(3n+2){border-color:var(--tape)}.pc:nth-child(3n){border-color:var(--brick)}
+.pc h3{font-size:19px;margin-bottom:14px}
+.pm{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.pm ul{margin:0;padding:0;list-style:none;font-size:15px}
+.pm li{padding:5px 0 5px 22px;position:relative;line-height:1.4}
+.pl li::before{content:"+";position:absolute;left:0;font-weight:700;color:var(--wall)}
+.mi li::before{content:"\2212";position:absolute;left:0;font-weight:700;color:var(--brick)}
+:root[data-theme="dark"] .pl li::before{color:#6fcf97}
+.best{margin:14px 0 0;padding-top:12px;border-top:1px solid var(--line);font-size:15px;color:var(--muted)}
+@media(max-width:820px){.pgrid{grid-template-columns:1fr}}
+@media(max-width:420px){.pm{grid-template-columns:1fr}}
+ol.steps{list-style:none;margin:0;padding:0;counter-reset:s;display:grid;grid-template-columns:repeat(2,1fr);gap:0 40px}
+ol.steps li{counter-increment:s;position:relative;padding:16px 0 16px 52px;border-bottom:1px solid var(--line)}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:14px;width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font:700 14px Unbounded,sans-serif}
+ol.steps b{display:block}
+ol.steps span{color:var(--muted);font-size:15px}
+@media(max-width:700px){ol.steps{grid-template-columns:1fr}}
+
+.articles{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.art{background:var(--surface);padding:22px;border-left:6px solid var(--tape)}
+.art:nth-child(2){border-color:var(--wall)}
+.art:nth-child(3){border-color:var(--brick)}
+.art h3{font-size:17px;margin-bottom:10px}
+.art p{margin:0 0 12px;color:var(--muted);font-size:15px}
+.art a{font-weight:700;font-size:15px}
+@media(max-width:820px){.articles{grid-template-columns:1fr}}
+
+.check{background:var(--surface);padding:26px;border-radius:6px;max-width:640px}
+.check label{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.check label:last-of-type{border-bottom:0}
+.check input{width:20px;height:20px;margin-top:3px;accent-color:var(--wall);flex:none}
+.check input:checked+span{text-decoration:line-through;color:var(--muted)}
+.prog{font-weight:700;margin-top:14px}
+
+footer{padding:36px 0 48px;border-top:1px solid var(--line);color:var(--muted);font-size:15px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="logo" href="#top">Свой угол</a>
+    <nav><a href="#rubriki">Разделы</a><a href="#poryadok">Порядок работ</a><a href="#kalkulyatory">Калькуляторы</a><a href="#cheklist">Чек-лист</a></nav>
+  </header>
+  <div id="home">
+
+  <main id="top">
+    <div class="hero">
+      <div>
+        <h1>Ремонт без сюрпризов и лишних трат</h1>
+        <p class="lead">Практичные советы по ремонту квартиры и дома: с чего начать, сколько это стоит и в каком порядке всё делать.</p>
+        <a class="btn" href="#poryadok">Смотреть порядок работ</a>
+      </div>
+      <form class="calc" onsubmit="return false" aria-labelledby="ch">
+        <h2 id="ch">Сколько будет стоить ремонт</h2>
+        <label for="area">Площадь: <output id="areaOut">60 м²</output></label>
+        <input id="area" type="range" min="15" max="200" value="60">
+        <label>Вид ремонта</label>
+        <div class="seg" id="seg">
+          <button type="button" data-min="8000" data-max="12000" aria-pressed="true">Косметический</button>
+          <button type="button" data-min="15000" data-max="22000" aria-pressed="false">Капитальный</button>
+          <button type="button" data-min="25000" data-max="40000" aria-pressed="false">Дизайнерский</button>
+        </div>
+        <div class="result" aria-live="polite">
+          <div class="sum" id="sum"></div>
+          <small>Ориентир в рублях вместе с работой и материалами. Реальная цена зависит от региона, состояния жилья и выбранных материалов.</small>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <section id="rubriki">
+    <div class="wrap" style="padding:0">
+      <h2>Разделы сайта</h2>
+      <p class="sub">Шесть рубрик: от идей для интерьера до готовых расчётов материалов.</p>
+      <div class="cats"><div class="cat" id="uyut-cat" style="border-color:var(--tape)"><h3><a class="lnk" href="#uyut">Уют и дизайн</a></h3><ul><li><a class="lnk" href="#idei">Идеи для квартиры</a></li><li><a class="lnk" href="#stili">Стили интерьера</a></li><li><a class="lnk" href="#org">Организация пространства</a></li></ul></div><div class="cat" id="remont-cat" style="border-color:var(--wall)"><h3><a class="lnk" href="#remont">Ремонт</a></h3><ul><li><a class="lnk" href="#steny">Стены и потолок</a></li><li><a class="lnk" href="#pol">Пол</a></li><li><a class="lnk" href="#elektrika">Электрика</a></li><li><a class="lnk" href="#santehnika">Сантехника</a></li></ul></div><div class="cat" id="dacha-cat" style="border-color:var(--brick)"><h3><a class="lnk" href="#dacha">Дача и дом</a></h3><ul><li><a class="lnk" href="#stroit">Строительство</a></li><li><a class="lnk" href="#utepl">Утепление</a></li><li><a class="lnk" href="#sad">Сад и участок</a></li></ul></div><div class="cat" id="instrumenty-cat" style="border-color:var(--tape)"><h3><a class="lnk" href="#instr">Инструменты</a></h3><ul><li><a class="lnk" href="#obzory">Обзоры</a></li><li><a class="lnk" href="#vybrat">Как выбрать</a></li></ul></div><div class="cat" id="lifehack-cat" style="border-color:var(--wall)"><h3><a class="lnk" href="#life">Лайфхаки</a></h3><ul><li><a class="lnk" href="#ekonomiya">Экономия</a></li><li><a class="lnk" href="#uborka">Уборка</a></li><li><a class="lnk" href="#melkiy">Мелкий ремонт</a></li></ul></div><div class="cat" id="kalkulyatory-cat" style="border-color:var(--brick)"><h3><a class="lnk" href="#kalkulyatory">Калькуляторы</a></h3><ul><li><a class="lnk" href="#kalkulyatory">Расчёт обоев</a></li><li><a class="lnk" href="#kalkulyatory">Расчёт плитки</a></li><li><a class="lnk" href="#kalkulyatory">Расчёт краски</a></li></ul></div></div>
+    </div>
+  </section>
+
+  <section id="poryadok">
+    <div class="wrap" style="padding:0">
+      <h2>В каком порядке делать ремонт</h2>
+      <p class="sub">Если перепутать этапы, придётся переделывать. Этот порядок подходит для большинства квартир.</p>
+      <ol class="steps">
+        <li><b>Проект и смета</b><span>Планировка, список работ, бюджет с запасом 15%.</span></li>
+        <li><b>Демонтаж</b><span>Старые покрытия, перегородки, сантехника.</span></li>
+        <li><b>Электрика и сантехника</b><span>Разводка в стенах и полу до отделки.</span></li>
+        <li><b>Стяжка и стены</b><span>Выравнивание, штукатурка, гидроизоляция.</span></li>
+        <li><b>Потолки и плитка</b><span>Сначала потолок, затем плитка, затем пол.</span></li>
+        <li><b>Окраска и обои</b><span>Чистовая отделка стен.</span></li>
+        <li><b>Полы и двери</b><span>Ламинат, паркет, двери и плинтусы.</span></li>
+        <li><b>Мебель и свет</b><span>Светильники, сантехприборы, мебель, уборка.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="cheklist">
+    <div class="wrap" style="padding:0">
+      <h2>Чек-лист перед началом ремонта</h2>
+      <p class="sub">Отмечайте пункты — страница запомнит их на этом устройстве.</p>
+      <div class="check" id="check">
+        <label><input type="checkbox"><span>Определён бюджет и запас на непредвиденное</span></label>
+        <label><input type="checkbox"><span>Готов план перестановки и размещения мебели</span></label>
+        <label><input type="checkbox"><span>Составлена смета на работы и материалы</span></label>
+        <label><input type="checkbox"><span>Подписан договор с подрядчиком</span></label>
+        <label><input type="checkbox"><span>Согласована перепланировка, если она нужна</span></label>
+        <label><input type="checkbox"><span>Заказаны материалы с длинным сроком поставки</span></label>
+        <div class="prog" id="prog"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="kalkulyatory">
+    <div class="wrap" style="padding:0">
+      <h2>Калькуляторы материалов</h2>
+      <p class="sub">Быстрый расчёт перед покупкой. Результат ориентировочный, берите материалы с запасом.</p>
+      <div class="kgrid">
+        <div class="k" data-k="wall"><h3>Обои</h3>
+          <label>Периметр комнаты, м<input type="number" min="1" value="16" data-f="p"></label>
+          <label>Высота потолка, м<input type="number" min="1" step="0.1" value="2.7" data-f="h"></label>
+          <p class="kr"></p><small>Рулон 0,53 × 10 м, окна и двери не вычитаются.</small></div>
+        <div class="k" data-k="tile"><h3>Плитка</h3>
+          <label>Площадь, м²<input type="number" min="1" value="8" data-f="a"></label>
+          <label>Размер плитки, см<span class="two"><input type="number" min="1" value="30" data-f="w" aria-label="Ширина"><input type="number" min="1" value="30" data-f="l" aria-label="Длина"></span></label>
+          <p class="kr"></p><small>Включён запас 10% на подрезку и брак.</small></div>
+        <div class="k" data-k="paint"><h3>Краска</h3>
+          <label>Площадь стен, м²<input type="number" min="1" value="45" data-f="a"></label>
+          <label>Количество слоёв<input type="number" min="1" max="4" value="2" data-f="n"></label>
+          <p class="kr"></p><small>Средний расход 0,11 л на м² за слой.</small></div>
+      </div>
+    </div>
+  </section>
+
+  </div>
+  <div id="pol" hidden>
+    <section style="border-top:0;padding-top:32px">
+      <a class="back" href="#rubriki">На главную</a>
+      <h1 class="ph">Какой пол выбрать: плюсы и минусы</h1>
+      <p class="sub">Шесть самых популярных покрытий. Слева плюсы, справа минусы, внизу комнаты, где материал подходит лучше всего.</p>
+      <div class="pgrid"><article class="pc"><h3>Ламинат</h3><div class="pm"><ul class="pl"><li>Недорогой</li><li>Быстрый монтаж без клея</li><li>Много дизайнов</li><li>Устойчив к царапинам</li></ul><ul class="mi"><li>Боится воды: края разбухают</li><li>Шумный без хорошей подложки</li><li>Нельзя отшлифовать и восстановить</li></ul></div><p class="best">Лучше всего для: спальня, гостиная, коридор</p></article><article class="pc"><h3>Линолеум</h3><div class="pm"><ul class="pl"><li>Недорогой</li><li>Не боится влаги</li><li>Тёплый и мягкий</li><li>Кладётся цельным полотном</li></ul><ul class="mi"><li>Продавливается под мебелью</li><li>Дешёвый может пахнуть</li><li>Выглядит проще остальных</li></ul></div><p class="best">Лучше всего для: кухня, коридор, детская, дача</p></article><article class="pc"><h3>Паркет</h3><div class="pm"><ul class="pl"><li>Служит десятилетиями</li><li>Можно циклевать и обновлять</li><li>Натуральное дерево</li><li>Повышает стоимость жилья</li></ul><ul class="mi"><li>Дорогой</li><li>Боится влаги и перепадов</li><li>Сложная укладка</li><li>Нужен регулярный уход</li></ul></div><p class="best">Лучше всего для: гостиная, спальня</p></article><article class="pc"><h3>Паркетная доска</h3><div class="pm"><ul class="pl"><li>Верхний слой из натурального дерева</li><li>Укладывать проще, чем паркет</li><li>Меньше деформируется</li></ul><ul class="mi"><li>Дорогая</li><li>Ограниченное число циклёвок</li><li>Боится воды</li></ul></div><p class="best">Лучше всего для: гостиная, спальня</p></article><article class="pc"><h3>Плитка и керамогранит</h3><div class="pm"><ul class="pl"><li>Не боится воды</li><li>Очень износостойкая</li><li>Подходит для тёплого пола</li><li>Легко мыть</li></ul><ul class="mi"><li>Холодная и твёрдая</li><li>Скользкая во влажном виде</li><li>Сложная укладка</li></ul></div><p class="best">Лучше всего для: ванная, кухня, прихожая</p></article><article class="pc"><h3>Кварцвинил</h3><div class="pm"><ul class="pl"><li>Водостойкий</li><li>Тёплый и тихий</li><li>Подходит для тёплого пола</li><li>Имитирует дерево и камень</li></ul><ul class="mi"><li>Дороже ламината</li><li>Нужно ровное основание</li><li>Продавливается тяжёлой мебелью</li></ul></div><p class="best">Лучше всего для: кухня, коридор, любые влажные места</p></article></div>
+    </section>
+  </div>
+  <div id="pg" hidden style="padding:32px 0 56px"></div>
+  <footer>
+    <span>© 2026 Свой угол</span>
+    <span>Сайт про дом и ремонт</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var area=document.getElementById('area'),out=document.getElementById('areaOut'),sum=document.getElementById('sum');
+  var btns=[].slice.call(document.querySelectorAll('#seg button')),cur=btns[0];
+  function fmt(n){return Math.round(n/1000)*1000;}
+  function f(n){return n.toLocaleString('ru-RU')+' ₽';}
+  function calc(){
+    var a=+area.value;out.textContent=a+' м²';
+    sum.textContent=f(fmt(a*cur.dataset.min))+' – '+f(fmt(a*cur.dataset.max));
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    btns.forEach(function(x){x.setAttribute('aria-pressed','false')});
+    b.setAttribute('aria-pressed','true');cur=b;calc();
+  });});
+  area.addEventListener('input',calc);calc();
+
+  var boxes=[].slice.call(document.querySelectorAll('#check input')),prog=document.getElementById('prog'),KEY='dom-check';
+  var saved=[];
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){}
+  function upd(){
+    var n=boxes.filter(function(b){return b.checked}).length;
+    prog.textContent='Готово: '+n+' из '+boxes.length;
+    try{localStorage.setItem(KEY,JSON.stringify(boxes.map(function(b){return b.checked})));}catch(e){}
+  }
+  boxes.forEach(function(b,i){b.checked=!!saved[i];b.addEventListener('change',upd);});
+  upd();
+
+  document.querySelectorAll('.k').forEach(function(k){
+    var r=k.querySelector('.kr');
+    function v(n){return Math.max(+k.querySelector('[data-f='+n+']').value||0,0);}
+    function run(){
+      var t=k.dataset.k,x;
+      if(t==='wall'){var h=v('h'),per=Math.floor(10/(h||1));x=per>0&&v('p')?Math.ceil(Math.ceil(v('p')/0.53)/per)+' рул.':'—';}
+      else if(t==='tile'){var s=v('w')*v('l')/10000;x=s?Math.ceil(v('a')*1.1/s)+' шт.':'—';}
+      else{x=(Math.round(v('a')*v('n')*0.11*10)/10).toLocaleString('ru-RU')+' л';}
+      r.textContent=x;
+    }
+    k.addEventListener('input',run);run();
+  });
+
+  var home=document.getElementById('home'),pol=document.getElementById('pol'),pg=document.getElementById('pg');
+  var D={
+   steny:{p:'remont',t:'Стены и потолок: чем отделать',cmp:[
+    ['Обои',['Много дизайнов','Быстро и недорого'],['Боятся влаги','Нужны ровные стены'],'спальня, гостиная'],
+    ['Краска',['Легко обновить','Нет швов'],['Показывает неровности','Нужна хорошая подготовка'],'любые комнаты'],
+    ['Декоративная штукатурка',['Долговечная','Скрывает мелкие дефекты'],['Дорогая','Нужен мастер'],'гостиная, коридор'],
+    ['Гипсокартонный потолок',['Ровная поверхность','Скрывает проводку'],['Съедает высоту','Боится протечек'],'спальня, гостиная'],
+    ['Натяжной потолок',['Монтаж за день','Выдерживает протечки'],['Боится острых предметов','Съедает высоту'],'кухня, ванная']],
+    soon:['Как выбрать обои: виды, плюсы и минусы, на что смотреть','Поклейка обоев без пузырей: пошаговая инструкция','Как выбрать краску для стен: таблица сравнения']},
+   utepl:{p:'dacha',t:'Утепление: чем утеплять дом и дачу',cmp:[
+    ['Минеральная вата',['Негорючая','Пропускает пар'],['Боится влаги','Нужна защита от пара и ветра'],'стены каркасных домов, кровля'],
+    ['Пенопласт',['Дешёвый','Лёгкий'],['Горючий','Его грызут мыши'],'фасады'],
+    ['Экструдированный пенополистирол',['Почти не впитывает воду','Прочный'],['Не пропускает пар','Горит'],'фундамент, цоколь, отмостка'],
+    ['Напыляемый пенополиуретан',['Без швов','Отличная теплоизоляция'],['Дорогой','Нужны техника и бригада'],'кровля, сложные формы']],
+    soon:['Как утеплить дачу на зиму: пошагово']},
+   stili:{p:'uyut',t:'Стили интерьера: что выбрать',cmp:[
+    ['Скандинавский',['Светлый и просторный','Недорогие материалы'],['Легко пачкается','Может казаться холодным'],'небольшие квартиры'],
+    ['Лофт',['Кирпич и бетон','Подходит для студий'],['Холодный на вид','Нужны высокие потолки'],'студии, просторные комнаты'],
+    ['Минимализм',['Мало вещей','Простая уборка'],['Нужен порядок','Мало декора'],'небольшие комнаты'],
+    ['Классика',['Не выходит из моды','Богатая отделка'],['Дорогая','Много деталей'],'большие квартиры и дома']],
+    soon:['Скандинавский стиль своими руками: 7 простых приёмов']},
+   vybrat:{p:'instr',t:'Как выбрать инструмент',cmp:[
+    ['Перфоратор',['Бетон и кирпич','Сверление и долбление'],['Тяжёлый','Шумный'],'анкеры, штробы, демонтаж'],
+    ['Шуруповёрт',['Лёгкий','Дерево и гипсокартон'],['Не для бетона','Аккумулятор садится'],'сборка мебели, гипсокартон'],
+    ['Дрель',['Дешевле','Работает от сети'],['Слабая по бетону','Мешает провод'],'дерево, металл'],
+    ['Болгарка',['Режет металл и плитку','Универсальна'],['Опасна без защиты','Много пыли'],'плитка, металл']],
+    soon:['Как выбрать перфоратор: советы и бюджетные модели']},
+   idei:{p:'uyut',t:'Идеи для квартиры',soon:['10 идей для маленькой квартиры: как визуально увеличить пространство','Цвета 2026 года в интерьере: что выбрать и как сочетать','Как обустроить балкон: от склада до уютного уголка']},
+   org:{p:'uyut',t:'Организация пространства'},
+   elektrika:{p:'remont',t:'Электрика'},
+   santehnika:{p:'remont',t:'Сантехника'},
+   stroit:{p:'dacha',t:'Строительство',soon:['Как защитить дом от воров: простые меры']},
+   sad:{p:'dacha',t:'Сад и участок',soon:['Как сделать грядки, которые не нужно перекапывать','Сезонные работы на даче: календарь на год']},
+   obzory:{p:'instr',t:'Обзоры инструментов',soon:['10 инструментов, которые нужны каждому новичку']},
+   ekonomiya:{p:'life',t:'Экономия',soon:['Как сэкономить на ремонте: 15 проверенных способов','Что можно сделать из остатков материалов']},
+   uborka:{p:'life',t:'Уборка',soon:['Как избавиться от плесени в ванной навсегда','Уход за деревянной мебелью: что можно и нельзя']},
+   melkiy:{p:'life',t:'Мелкий ремонт',soon:['Что делать, если сломался смеситель: ремонт своими руками','Как убрать царапины с мебели: 5 способов']}
+  };
+  var R={
+   uyut:{t:'Уют и дизайн',subs:[['Идеи для квартиры','idei'],['Стили интерьера','stili'],['Организация пространства','org']]},
+   remont:{t:'Ремонт',subs:[['Стены и потолок','steny'],['Пол','pol'],['Электрика','elektrika'],['Сантехника','santehnika']]},
+   dacha:{t:'Дача и дом',subs:[['Строительство','stroit'],['Утепление','utepl'],['Сад и участок','sad']]},
+   instr:{t:'Инструменты',subs:[['Обзоры','obzory'],['Как выбрать','vybrat']]},
+   life:{t:'Лайфхаки',subs:[['Экономия','ekonomiya'],['Уборка','uborka'],['Мелкий ремонт','melkiy']]}
+  };
+  function li(a){return a.map(function(x){return '<li>'+x+'</li>'}).join('')}
+  function render(k){
+    var d=D[k]||R[k],h='<a class="back" href="#'+(d.p||'rubriki')+'">'+(d.p?R[d.p].t:'На главную')+'</a><h1 class="ph">'+d.t+'</h1>';
+    if(d.subs)h+='<div class="cats"><div class="cat"><ul>'+d.subs.map(function(x){return '<li><a class="lnk" href="#'+x[1]+'">'+x[0]+'</a></li>'}).join('')+'</ul></div></div>';
+    if(d.cmp)h+='<p class="sub">Слева плюсы, справа минусы, внизу места, где вариант подходит лучше всего.</p><div class="pgrid">'+d.cmp.map(function(c){return '<article class="pc"><h3>'+c[0]+'</h3><div class="pm"><ul class="pl">'+li(c[1])+'</ul><ul class="mi">'+li(c[2])+'</ul></div><p class="best">Лучше всего для: '+c[3]+'</p></article>'}).join('')+'</div>';
+    if(d.soon)h+='<div class="cats" style="margin-top:24px"><div class="cat"><h3>Скоро на сайте</h3><ul>'+li(d.soon)+'</ul></div></div>';
+    if(!d.subs&&!d.cmp&&!d.soon)h+='<p class="sub">Статьи этого раздела скоро появятся.</p>';
+    return h;
+  }
+  function route(){
+    var k=location.hash.slice(1),on=k==='pol',g=!on&&(D[k]||R[k]);
+    home.hidden=on||!!g;pol.hidden=!on;pg.hidden=!g;
+    if(on){window.scrollTo(0,0);document.title='Какой пол выбрать: плюсы и минусы — Свой угол';}
+    else if(g){pg.innerHTML=render(k);window.scrollTo(0,0);document.title=g.t+' — Свой угол';}
+    else{document.title='Свой угол — дом и ремонт';
+      var t=k&&document.getElementById(k);if(t)t.scrollIntoView();}
+  }
+  window.addEventListener('hashchange',route);route();
+})();
+</script>
+</body>
+</html>
